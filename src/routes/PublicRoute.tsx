@@ -1,6 +1,6 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../contexts/useAuth";
 
 interface PublicRouteProps {
   restricted?: boolean;
@@ -8,7 +8,7 @@ interface PublicRouteProps {
 
 const PublicRoute: React.FC<PublicRouteProps> = ({ restricted = false }) => {
   const { user, loading } = useAuth();
-  
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -16,13 +16,13 @@ const PublicRoute: React.FC<PublicRouteProps> = ({ restricted = false }) => {
       </div>
     );
   }
-  
+
   // If route is restricted and user is logged in, redirect based on role
   if (restricted && user) {
     const adminRole = import.meta.env.VITE_ROLE_ADMIN;
     const staffRole = import.meta.env.VITE_ROLE_STAFF;
     const customerRole = import.meta.env.VITE_ROLE_CUSTOMER;
-    
+
     if (user.roleName === adminRole) {
       return <Navigate to="/admin/dashboard" replace />;
     } else if (user.roleName === staffRole) {
@@ -31,7 +31,7 @@ const PublicRoute: React.FC<PublicRouteProps> = ({ restricted = false }) => {
       return <Navigate to="/customer/dashboard" replace />;
     }
   }
-  
+
   // If not restricted or user is not logged in, render the public route
   return <Outlet />;
 };

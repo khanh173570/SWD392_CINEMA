@@ -1,3 +1,5 @@
+export type RoleName = "admin" | "staff" | "customer";
+
 export interface User {
   id: string;
   userName: string;
@@ -6,20 +8,18 @@ export interface User {
 export interface AuthResponse {
   id: string;
   userName: string;
-  password?: string;
-  roleName: string;
+  password: string;
+  roleName: RoleName;
   token: string;
   user: User;
 }
 
-export interface LoginCredentials {
+export interface LoginRequest {
   userName: string;
   password: string;
 }
 
-export interface RegisterCredentials {
-  userName: string;
+export interface RegisterRequest extends LoginRequest {
   email: string;
-  password: string;
-  confirmPassword?: string;
+  roleName: RoleName;
 }

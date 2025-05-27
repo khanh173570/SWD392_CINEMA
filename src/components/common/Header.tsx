@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import { LogOut, User, Menu, X } from 'lucide-react';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/useAuth";
+import { LogOut, User, Menu, X } from "lucide-react";
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
@@ -10,7 +10,7 @@ const Header: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -23,15 +23,19 @@ const Header: React.FC = () => {
             </span>
             RoleBase App
           </Link>
-          
+
           {/* Mobile menu button */}
-          <button 
+          <button
             className="md:hidden text-white focus:outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
           </button>
-          
+
           {/* Desktop navigation */}
           <nav className="hidden md:flex items-center space-x-6">
             {user ? (
@@ -53,14 +57,14 @@ const Header: React.FC = () => {
               </>
             ) : (
               <>
-                <Link 
-                  to="/login" 
+                <Link
+                  to="/login"
                   className="text-white hover:text-blue-200 transition-colors duration-200"
                 >
                   Login
                 </Link>
-                <Link 
-                  to="/register" 
+                <Link
+                  to="/register"
                   className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50 transition-colors duration-200"
                 >
                   Register
@@ -69,7 +73,7 @@ const Header: React.FC = () => {
             )}
           </nav>
         </div>
-        
+
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-2">
@@ -94,14 +98,14 @@ const Header: React.FC = () => {
               </div>
             ) : (
               <div className="flex flex-col space-y-3">
-                <Link 
-                  to="/login" 
+                <Link
+                  to="/login"
                   className="text-white hover:text-blue-200 transition-colors duration-200"
                 >
                   Login
                 </Link>
-                <Link 
-                  to="/register" 
+                <Link
+                  to="/register"
                   className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50 transition-colors duration-200 w-fit"
                 >
                   Register
