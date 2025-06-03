@@ -1,0 +1,108 @@
+{
+  "movies": [
+    {
+      "id": 1,
+      "title": "BUÔN THẦN BÁN THÁNH",
+      "rating": "T16",
+      "genre": ["Hài Hước", "Phiêu Lưu", "Hành Động"],
+      "releaseDate": "23.05.2025",
+      "imageUrl": "https://placehold.co/300x400/red/white?text=BUÔN+THẦN+BÁN+THÁNH",
+      "description": "Một bộ phim hài hước về cuộc phiêu lưu của nhóm bạn trẻ trong thế giới thần thánh."
+    },
+    {
+      "id": 2,
+      "title": "MA MÓC HỒNG",
+      "rating": "T16",
+      "genre": ["Kinh Dị", "Tâm Lý"],
+      "releaseDate": "23.05.2025",
+      "imageUrl": "https://placehold.co/300x400/red/white?text=MA+MÓC+HỒNG",
+      "description": "Câu chuyện kinh dị về một ngôi nhà bị ma ám với những bí ẩn chưa được giải đáp."
+    },
+    {
+      "id": 3,
+      "title": "MUỘN HÔN ĐOẠT XÁC",
+      "rating": "T18",
+      "genre": ["Kinh Dị", "Tâm Lý"],
+      "releaseDate": "30.05.2025",
+      "imageUrl": "https://placehold.co/300x400/red/white?text=MUỘN+HÔN+ĐOẠT+XÁC",
+      "description": "Một bộ phim kinh dị tâm lý đầy ám ảnh với những cảnh quay rùng rợn."
+    },
+    {
+      "id": 4,
+      "title": "NHIỆM VỤ: BẤT KHẢ THI",
+      "rating": "T16",
+      "genre": ["Hành Động", "Phiêu Lưu"],
+      "releaseDate": "25.05.2025",
+      "imageUrl": "https://placehold.co/300x400/red/white?text=NHIỆM+VỤ+BẤT+KHẢ+THI",
+      "description": "Phần mới nhất của loạt phim hành động nổi tiếng với Tom Cruise trong vai Ethan Hunt."
+    },
+    {
+      "id": 5,
+      "title": "VỆ BINH DẢI NGÂN HÀ 3",
+      "rating": "P",
+      "genre": ["Khoa Học Viễn Tưởng", "Hài Hước", "Hành Động"],
+      "releaseDate": "15.06.2025",
+      "imageUrl": "https://placehold.co/300x400/red/white?text=VỆ+BINH+DẢI+NGÂN+HÀ+3",
+      "description": "Biệt đội vệ binh trở lại với sứ mệnh giải cứu thiên hà khỏi mối đe doạ mới."
+    }
+  ],
+  "theaters": [
+    {
+      "id": 1,
+      "name": "CGV Aeon Mall",
+      "location": "Quận 7, TP.HCM",
+      "imageUrl": "https://placehold.co/300x200/red/white?text=CGV+Aeon+Mall"
+    },
+    {
+      "id": 2,
+      "name": "Cinestar Hai Bà Trưng",
+      "location": "Quận 1, TP.HCM",
+      "imageUrl": "https://placehold.co/300x200/red/white?text=Cinestar+Hai+Bà+Trưng"
+    },
+    {
+      "id": 3,
+      "name": "Lotte Cinema Nowzone",
+      "location": "Quận 10, TP.HCM",
+      "imageUrl": "https://placehold.co/300x200/red/white?text=Lotte+Cinema"
+    },
+    {
+      "id": 4,
+      "name": "Galaxy Nguyễn Du",
+      "location": "Quận 1, TP.HCM",
+      "imageUrl": "https://placehold.co/300x200/red/white?text=Galaxy+Cinema"
+    },
+    {
+      "id": 5,
+      "name": "Mega GS Cao Thắng",
+      "location": "Quận 3, TP.HCM",
+      "imageUrl": "https://placehold.co/300x200/red/white?text=Mega+GS+Cao+Thắng"
+    }
+  ],
+  "showtimes": [
+    {
+      "id": 1,
+      "date": "03.06.2025",
+      "times": ["10:00", "12:30", "15:00", "17:30", "20:00", "22:30"]
+    },
+    {
+      "id": 2,
+      "date": "04.06.2025",
+      "times": ["10:00", "12:30", "15:00", "17:30", "20:00", "22:30"]
+    },
+    {
+      "id": 3,
+      "date": "05.06.2025",
+      "times": ["10:00", "12:30", "15:00", "17:30", "20:00", "22:30"]
+    },
+    {
+      "id": 4,
+      "date": "06.06.2025",
+      "times": ["09:00", "11:45", "14:30", "17:15", "20:00"]
+    },
+    {
+      "id": 5,
+      "date": "07.06.2025",
+      "times": ["09:00", "12:00", "15:00", "18:00", "21:00"]
+    }
+  ]
+}
