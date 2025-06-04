@@ -10,6 +10,7 @@ import CustomerDashboard from "../pages/customer/Dashboard";
 import NotFound from "../pages/NotFound";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
+import Manageaccount from "../pages/admin/Manageaccount";
 
 const AppRoutes: React.FC = () => {
   // Get roles from environment variables
@@ -34,6 +35,11 @@ const AppRoutes: React.FC = () => {
         {/* Admin Routes */}
         <Route element={<ProtectedRoute allowedRoles={[adminRole]} />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        </Route>
+
+         {/* Admin Routes */}
+        <Route element={<PublicRoute />}>
+          <Route path="/admin/manageaccount" element={< Manageaccount/>} />
         </Route>
 
         {/* Staff Routes */}
