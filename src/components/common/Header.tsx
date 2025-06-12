@@ -73,7 +73,7 @@ const Header: React.FC = () => {
                   className="bg-transparent border border-white text-white px-4 py-2 rounded flex items-center gap-2 font-medium hover:bg-white hover:text-[#0f172a] transition-colors"
                 >
                   <ShoppingBag size={18} />
-                  ĐẶT GẬP NƯỚC
+                  ĐẶT BẮP NƯỚC
                 </Link>
               </div>
 
