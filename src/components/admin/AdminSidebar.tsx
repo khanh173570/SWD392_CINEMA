@@ -63,7 +63,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
           </li>
           <li>
             <NavLink
-              to="/admin/manageaccount"
+              to="/admin/manage-account"
               className={({ isActive }) =>
                 `flex items-center p-4 ${
                   isActive ? "bg-blue-800" : "hover:bg-blue-800"

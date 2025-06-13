@@ -59,7 +59,7 @@ function App() {
           <Route element={<ProtectedRoute allowedRoles={[adminRole]} />}>
             <Route element={<AdminLayout />}>
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route path="/admin/manageaccount" element={<Manageaccount />} />
+              <Route path="/admin/manage-account" element={<Manageaccount />} />
               <Route path="/admin/manage-cinemas" element={<ManageCinemas />} />
               <Route path="/admin/manage-movies" element={<ManageMovies />} />
               <Route path="/admin/manage-revenue" element={<ManageRevenue />} />
