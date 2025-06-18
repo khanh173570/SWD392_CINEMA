@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Users, Shield, User, ArrowRight } from 'lucide-react';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Users, Shield, User, ArrowRight } from "lucide-react";
 
 const Home: React.FC = () => {
   return (
@@ -11,7 +11,8 @@ const Home: React.FC = () => {
             Welcome to Role-Based Access Control System
           </h1>
           <p className="text-xl text-gray-600 mb-8">
-            A complete authentication system with different access levels for customers, staff, and administrators.
+            A complete authentication system with different access levels for
+            customers, staff, and administrators.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
@@ -31,8 +32,10 @@ const Home: React.FC = () => {
         </div>
 
         <div className="mt-20">
-          <h2 className="text-3xl font-bold text-center mb-12">User Roles and Access</h2>
-          
+          <h2 className="text-3xl font-bold text-center mb-12">
+            User Roles and Access
+          </h2>
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
               <div className="text-blue-600 mb-4">
@@ -40,7 +43,8 @@ const Home: React.FC = () => {
               </div>
               <h3 className="text-xl font-semibold mb-3">Customer</h3>
               <p className="text-gray-600 mb-4">
-                Regular users with basic access to the platform. Customers can view and manage their own content.
+                Regular users with basic access to the platform. Customers can
+                view and manage their own content.
               </p>
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-center">
@@ -50,18 +54,20 @@ const Home: React.FC = () => {
                   <span className="mr-2">•</span> Manage profile settings
                 </li>
                 <li className="flex items-center">
-                  <span className="mr-2">•</span> Access customer-specific features
+                  <span className="mr-2">•</span> Access customer-specific
+                  features
                 </li>
               </ul>
             </div>
-            
+
             <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
               <div className="text-indigo-600 mb-4">
                 <Users className="h-12 w-12" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Staff</h3>
               <p className="text-gray-600 mb-4">
-                Staff members have elevated permissions to manage resources and provide support to customers.
+                Staff members have elevated permissions to manage resources and
+                provide support to customers.
               </p>
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-center">
@@ -75,14 +81,15 @@ const Home: React.FC = () => {
                 </li>
               </ul>
             </div>
-            
+
             <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
               <div className="text-purple-600 mb-4">
                 <Shield className="h-12 w-12" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Administrator</h3>
               <p className="text-gray-600 mb-4">
-                Administrators have full control over the system and can manage all aspects of the platform.
+                Administrators have full control over the system and can manage
+                all aspects of the platform.
               </p>
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-center">

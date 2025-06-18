@@ -1,18 +1,14 @@
 import React, { createContext, useState, useEffect } from "react";
-import { AuthResponse } from "../types/auth";
+import { AuthMetadata, LoginRequest, RegisterRequest } from "../types/auth";
 import * as authService from "../services/auth";
 import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
-  user: AuthResponse | null;
+  user: AuthMetadata | null;
   loading: boolean;
   error: string | null;
-  login: (credentials: { userName: string; password: string }) => Promise<void>;
-  register: (credentials: {
-    userName: string;
-    email: string;
-    password: string;
-  }) => Promise<void>;
+  login: (credentials: LoginRequest) => Promise<void>;
+  register: (credentials: RegisterRequest) => Promise<void>;
   logout: () => void;
   clearError: () => void;
 }
@@ -30,7 +26,7 @@ export const AuthContext = createContext<AuthContextType>({
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<AuthResponse | null>(null);
+  const [user, setUser] = useState<AuthMetadata | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -49,40 +45,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     setLoading(false);
   }, []);
-
-  const login = async (credentials: { userName: string; password: string }) => {
+  const login = async (credentials: LoginRequest) => {
     setLoading(true);
     setError(null);
     try {
       const userData = await authService.login(credentials);
       setUser(userData);
 
-      // Redirect based on role
-      redirectBasedOnRole(userData.roleName);
+      // Redirect based on roles
+      redirectBasedOnRoles(userData.roles);
     } catch (err) {
-      setError("Invalid username or password");
+      setError("Invalid email or password");
       console.error("Login error:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  const register = async (credentials: {
-    userName: string;
-    email: string;
-    password: string;
-  }) => {
+  const register = async (credentials: RegisterRequest) => {
     setLoading(true);
     setError(null);
     try {
-      const registerData = {
-        ...credentials,
-        roleName: import.meta.env.VITE_ROLE_CUSTOMER,
-      };
-      const userData = await authService.register(registerData);
+      const userData = await authService.register(credentials);
       setUser(userData);
 
-      // Redirect to customer dashboard
+      // Redirect to user dashboard
       navigate("/customer/dashboard");
     } catch (err) {
       setError("Registration failed. Please try again.");
@@ -101,17 +88,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const clearError = () => {
     setError(null);
   };
-
-  const redirectBasedOnRole = (role: string) => {
-    const adminRole = import.meta.env.VITE_ROLE_ADMIN;
-    const staffRole = import.meta.env.VITE_ROLE_STAFF;
-    const customerRole = import.meta.env.VITE_ROLE_CUSTOMER;
-
-    if (role === adminRole) {
+  const redirectBasedOnRoles = (roles: string[]) => {
+    if (roles.includes("ROLE_ADMIN")) {
       navigate("/admin/dashboard");
-    } else if (role === staffRole) {
+    } else if (roles.includes("ROLE_MANAGER")) {
+      navigate("/manager/dashboard");
+    } else if (roles.includes("ROLE_STAFF")) {
       navigate("/staff/dashboard");
-    } else if (role === customerRole) {
+    } else if (roles.includes("ROLE_USER")) {
       navigate("/customer/dashboard");
     } else {
       navigate("/login");

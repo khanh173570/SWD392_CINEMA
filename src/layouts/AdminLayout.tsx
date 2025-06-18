@@ -10,26 +10,21 @@ const AdminLayout: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <AdminSidebar
-        isSidebarOpen={isSidebarOpen}
-        toggleSidebar={toggleSidebar}
-      />
-
-      {/* Main content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <AdminHeader />
-
-        {/* Content */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4">
-          <Outlet />
+    <div className="min-h-screen bg-gray-50">
+      <AdminHeader />
+      <div className="flex">
+        <AdminSidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} />
+        <main
+          className={`flex-1 transition-all duration-300 ${
+            isSidebarOpen ? "ml-64" : "ml-16"
+          }`}
+        >
+          <div className="p-6">
+            <Outlet />
+          </div>
         </main>
-
-        {/* Footer */}
-        <AdminFooter />
       </div>
+      <AdminFooter />
     </div>
   );
 };

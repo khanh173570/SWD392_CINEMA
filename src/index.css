@@ -1,3 +1,103 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom styles for tabs */
+.movie-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.movie-tab-active {
+  background-color: white;
+  color: rgb(124, 58, 237);
+  border-top: 1px solid rgb(229, 231, 235);
+  border-left: 1px solid rgb(229, 231, 235);
+  border-right: 1px solid rgb(229, 231, 235);
+}
+
+.movie-tab-inactive {
+  background-color: rgb(243, 244, 246);
+  color: rgb(107, 114, 128);
+}
+
+.movie-tab-inactive:hover {
+  background-color: rgb(229, 231, 235);
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .movie-tab-active {
+    background-color: rgb(31, 41, 55);
+    color: rgb(167, 139, 250);
+    border-color: rgb(55, 65, 81);
+  }
+
+  .movie-tab-inactive {
+    background-color: rgb(55, 65, 81);
+    color: rgb(209, 213, 219);
+  }
+
+  .movie-tab-inactive:hover {
+    background-color: rgb(75, 85, 99);
+  }
+}
+
+/* Custom styles */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tab styles */
+.movie-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border-bottom-width: 2px;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  transition-property: background-color, border-color, color;
+  transition-duration: 300ms;
+}
+
+.movie-tab-active {
+  border-color: #9333ea;
+  background-color: #9333ea;
+  color: white;
+}
+
+.movie-tab-inactive {
+  border-color: #d1d5db;
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.movie-tab-inactive:hover {
+  background-color: #e5e7eb;
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}

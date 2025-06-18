@@ -1,146 +1,68 @@
-import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
-  Users,
   LayoutDashboard,
-  Menu,
-  X,
+  Users,
   Film,
-  Building2,
+  MapPin,
   DollarSign,
-  Activity,
-  LogOut,
+  Settings,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
-import { useAuth } from "../../contexts/useAuth";
 
 interface AdminSidebarProps {
-  isSidebarOpen: boolean;
-  toggleSidebar: () => void;
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
-const AdminSidebar: React.FC<AdminSidebarProps> = ({
-  isSidebarOpen,
-  toggleSidebar,
-}) => {
-  const { logout } = useAuth();
-  const navigate = useNavigate();
+const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onToggle }) => {
+  const location = useLocation();
 
-  const handleLogout = async () => {
-    await logout();
-    navigate("/login");
-  };
+  const menuItems = [
+    { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
+    { icon: Users, label: "Manage Accounts", path: "/admin/accounts" },
+    { icon: Film, label: "Manage Movies", path: "/admin/movies" },
+    { icon: MapPin, label: "Manage Cinemas", path: "/admin/cinemas" },
+    { icon: DollarSign, label: "Revenue", path: "/admin/revenue" },
+    { icon: Settings, label: "Status", path: "/admin/status" },
+  ];
 
   return (
     <div
-      className={`bg-blue-900 text-white ${
-        isSidebarOpen ? "w-64" : "w-20"
-      } transition-all duration-300 flex flex-col`}
+      className={`fixed left-0 top-0 h-full bg-gray-900 text-white transition-all duration-300 z-40 ${
+        isOpen ? "w-64" : "w-16"
+      }`}
     >
-      <div className="p-4 flex items-center justify-between">
-        {isSidebarOpen && <h1 className="text-xl font-bold">Admin Panel</h1>}
+      <div className="flex items-center justify-between p-4 border-b border-gray-700">
+        {isOpen && <h2 className="text-xl font-bold">CINESTAR</h2>}
         <button
-          onClick={toggleSidebar}
-          className="p-2 rounded-md hover:bg-blue-800"
+          onClick={onToggle}
+          className="p-2 rounded-lg hover:bg-gray-700 transition-colors"
         >
-          {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+          {isOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
         </button>
       </div>
 
-      <nav className="flex-1 mt-4">
-        <ul className="space-y-1">
-          <li>
-            <NavLink
-              to="/admin/dashboard"
-              className={({ isActive }) =>
-                `flex items-center p-4 ${
-                  isActive ? "bg-blue-800" : "hover:bg-blue-800"
-                } transition-colors`
-              }
+      <nav className="mt-6">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+
+          return (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`flex items-center px-4 py-3 hover:bg-gray-700 transition-colors ${
+                isActive ? "bg-gray-700 border-r-4 border-blue-500" : ""
+              }`}
             >
-              <LayoutDashboard size={20} />
-              {isSidebarOpen && <span className="ml-3">Dashboard</span>}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/admin/manage-account"
-              className={({ isActive }) =>
-                `flex items-center p-4 ${
-                  isActive ? "bg-blue-800" : "hover:bg-blue-800"
-                } transition-colors`
-              }
-            >
-              <Users size={20} />
-              {isSidebarOpen && <span className="ml-3">Quản lý tài khoản</span>}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/admin/manage-cinemas"
-              className={({ isActive }) =>
-                `flex items-center p-4 ${
-                  isActive ? "bg-blue-800" : "hover:bg-blue-800"
-                } transition-colors`
-              }
-            >
-              <Building2 size={20} />
-              {isSidebarOpen && <span className="ml-3">Quản lý rạp phim</span>}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/admin/manage-movies"
-              className={({ isActive }) =>
-                `flex items-center p-4 ${
-                  isActive ? "bg-blue-800" : "hover:bg-blue-800"
-                } transition-colors`
-              }
-            >
-              <Film size={20} />
-              {isSidebarOpen && <span className="ml-3">Quản lý phim</span>}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/admin/manage-revenue"
-              className={({ isActive }) =>
-                `flex items-center p-4 ${
-                  isActive ? "bg-blue-800" : "hover:bg-blue-800"
-                } transition-colors`
-              }
-            >
-              <DollarSign size={20} />
-              {isSidebarOpen && <span className="ml-3">Quản lý doanh thu</span>}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/admin/manage-status"
-              className={({ isActive }) =>
-                `flex items-center p-4 ${
-                  isActive ? "bg-blue-800" : "hover:bg-blue-800"
-                } transition-colors`
-              }
-            >
-              <Activity size={20} />
-              {isSidebarOpen && (
-                <span className="ml-3">Quản lý trạng thái</span>
-              )}
-            </NavLink>
-          </li>
-        </ul>
+              <Icon size={20} className="flex-shrink-0" />
+              {isOpen && <span className="ml-3 truncate">{item.label}</span>}
+            </Link>
+          );
+        })}
       </nav>
-
-      {/* Logout button at the bottom */}
-      <div className="mt-auto border-t border-blue-800 pt-2 pb-4">
-        <button
-          onClick={handleLogout}
-          className="flex items-center p-4 w-full text-left hover:bg-blue-800 transition-colors text-red-300 hover:text-red-200"
-        >
-          <LogOut size={20} />
-          {isSidebarOpen && <span className="ml-3">Đăng xuất</span>}
-        </button>
-      </div>
     </div>
   );
 };

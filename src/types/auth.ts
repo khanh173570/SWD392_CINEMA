@@ -1,25 +1,44 @@
-export type RoleName = "admin" | "staff" | "customer";
+export type RoleName =
+  | "ROLE_ADMIN"
+  | "ROLE_STAFF"
+  | "ROLE_USER"
+  | "ROLE_MANAGER";
 
 export interface User {
-  id: string;
-  userName: string;
+  id: number;
+  email: string;
+  fullName: string;
+  avatar: string;
+  phone: string;
+  roles: RoleName[];
+}
+
+export interface AuthMetadata {
+  id: number;
+  email: string;
+  fullName: string;
+  avatar: string;
+  phone: string;
+  provider: string;
+  accessToken: string;
+  refreshToken: string;
+  roles: RoleName[];
+  message: string | null;
 }
 
 export interface AuthResponse {
-  id: string;
-  userName: string;
-  password: string;
-  roleName: RoleName;
-  token: string;
-  user: User;
+  metadata: AuthMetadata;
+  status: boolean;
 }
 
 export interface LoginRequest {
-  userName: string;
+  email: string;
   password: string;
 }
 
-export interface RegisterRequest extends LoginRequest {
+export interface RegisterRequest {
   email: string;
-  roleName: RoleName;
+  password: string;
+  fullName: string;
+  phone: string;
 }

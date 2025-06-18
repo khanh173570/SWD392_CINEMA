@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Movie } from "../../types/customer";
-import { getShowingMovies, getComingMovies } from "../../services/movie";
+import {
+  getShowingMovies,
+  getUpcomingMovies,
+  getComingMovies,
+} from "../../services/movie";
 import { FeaturedMovie, MovieCard } from "../../components/customer";
 import { Film, Calendar, Loader2 } from "lucide-react";
 
 const Dashboard = () => {
   const [showingMovies, setShowingMovies] = useState<Movie[]>([]);
-
+  const [upcomingMovies, setUpcomingMovies] = useState<Movie[]>([]);
   const [comingMovies, setComingMovies] = useState<Movie[]>([]);
   const [featuredMovie, setFeaturedMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -19,19 +23,21 @@ const Dashboard = () => {
         setLoading(true);
 
         // Fetch all movie categories in parallel
-        const [showing, coming] = await Promise.all([
+        const [showing, upcoming, coming] = await Promise.all([
           getShowingMovies(),
-
+          getUpcomingMovies(),
           getComingMovies(),
         ]);
 
         setShowingMovies(showing);
-
+        setUpcomingMovies(upcoming);
         setComingMovies(coming);
 
         // Set a featured movie (first from showing, or upcoming if no showing movies)
         if (showing.length > 0) {
           setFeaturedMovie(showing[0]);
+        } else if (upcoming.length > 0) {
+          setFeaturedMovie(upcoming[0]);
         } else if (coming.length > 0) {
           setFeaturedMovie(coming[0]);
         }
@@ -79,14 +85,14 @@ const Dashboard = () => {
 
       {/* Movie Section with Tabs */}
       <div className="my-8">
-        {/* Tab Navigation */}{" "}
+        {/* Tab Navigation */}
         <div className="mb-6 flex">
           <button
             onClick={() => setActiveTab("showing")}
-            className={`movie-tab ${
+            className={`flex items-center gap-2 px-6 py-3 font-medium rounded-t-lg transition-colors ${
               activeTab === "showing"
-                ? "movie-tab-active"
-                : "movie-tab-inactive"
+                ? "bg-white text-purple-600 border-t border-l border-r border-gray-200 dark:bg-gray-800 dark:text-purple-400 dark:border-gray-700"
+                : "bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
             }`}
           >
             <Film size={20} />
@@ -94,16 +100,17 @@ const Dashboard = () => {
           </button>
           <button
             onClick={() => setActiveTab("upcoming")}
-            className={`movie-tab ${
+            className={`flex items-center gap-2 px-6 py-3 font-medium rounded-t-lg transition-colors ${
               activeTab === "upcoming"
-                ? "movie-tab-active"
-                : "movie-tab-inactive"
+                ? "bg-white text-purple-600 border-t border-l border-r border-gray-200 dark:bg-gray-800 dark:text-purple-400 dark:border-gray-700"
+                : "bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
             }`}
           >
             <Calendar size={20} />
             Phim Sắp Chiếu
           </button>
         </div>
+
         {/* Tab Content */}
         <div className="min-h-[600px] rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
           {activeTab === "showing" ? (
@@ -143,10 +150,10 @@ const Dashboard = () => {
               <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
                 Phim Sắp Chiếu
               </h2>
-              {comingMovies.length > 0 ? (
+              {upcomingMovies.length > 0 ? (
                 <>
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                    {comingMovies.map((movie) => (
+                    {upcomingMovies.map((movie) => (
                       <div key={movie.id}>
                         <MovieCard movie={movie} />
                       </div>

@@ -2,12 +2,18 @@
 
 export interface Movie {
   id: number;
-  title: string;
-  rating: string;
-  genre: string[];
+  name: string;
+  image: string;
+  duration: number;
   releaseDate: string;
-  imageUrl: string;
-  description: string;
+  genre: string;
+  trailer: string;
+  ageRated: number;
+}
+
+export interface MovieResponse {
+  metadata: Movie[];
+  status: boolean;
 }
 
 export interface Theater {

@@ -1,6 +1,16 @@
-import { AuthResponse, LoginRequest, RegisterRequest } from "../types/auth";
+import {
+  AuthResponse,
+  LoginRequest,
+  RegisterRequest,
+  AuthMetadata,
+} from "../types/auth";
 
-const AUTH_ENDPOINT = `${import.meta.env.VITE_API_URL}/login`;
+// Using proxy through Vite for API endpoints
+const API_PATH = import.meta.env.VITE_API_PATH;
+const LOGIN_ENDPOINT = `${API_PATH}${import.meta.env.VITE_API_AUTH_LOGIN}`;
+const REGISTER_ENDPOINT = `${API_PATH}${
+  import.meta.env.VITE_API_AUTH_REGISTER
+}`;
 
 class AuthError extends Error {
   constructor(message: string) {
@@ -9,37 +19,34 @@ class AuthError extends Error {
   }
 }
 
-export const login = async (data: LoginRequest): Promise<AuthResponse> => {
+export const login = async (data: LoginRequest): Promise<AuthMetadata> => {
   try {
-    const response = await fetch(
-      `${AUTH_ENDPOINT}?userName=${data.userName}&password=${data.password}`
-    );
+    const response = await fetch(LOGIN_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
     if (!response.ok) {
       throw new AuthError("Failed to connect to authentication service");
     }
 
-    const users = await response.json();
-    const user = users.find(
-      (u: AuthResponse) =>
-        u.userName === data.userName && u.password === data.password
-    );
+    const responseData: AuthResponse = await response.json();
 
-    if (!user) {
-      throw new AuthError("Invalid credentials");
+    if (!responseData.status) {
+      throw new AuthError(responseData.metadata.message || "Login failed");
     }
 
-    // Validate role
-    const validRoles = ["admin", "staff", "customer"];
-    if (!validRoles.includes(user.roleName)) {
-      throw new AuthError("Invalid user role");
-    }
+    const userData = responseData.metadata;
 
     // Store the token in localStorage
-    localStorage.setItem("token", user.token);
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("token", userData.accessToken);
+    localStorage.setItem("refreshToken", userData.refreshToken);
+    localStorage.setItem("user", JSON.stringify(userData));
 
-    return user;
+    return userData;
   } catch (error) {
     console.error("Login error:", error);
     if (error instanceof AuthError) {
@@ -51,40 +58,36 @@ export const login = async (data: LoginRequest): Promise<AuthResponse> => {
 
 export const register = async (
   data: RegisterRequest
-): Promise<AuthResponse> => {
+): Promise<AuthMetadata> => {
   try {
-    // Generate a random ID for the user
-    const userId = Date.now().toString();
-
-    const newUser = {
-      ...data,
-      token: `mock-token-${userId}`,
-      id: userId,
-      user: {
-        id: userId,
-        userName: data.userName,
-      },
-    };
-
-    const response = await fetch(AUTH_ENDPOINT, {
+    const response = await fetch(REGISTER_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newUser),
+      body: JSON.stringify(data),
     });
 
     if (!response.ok) {
       throw new AuthError("Registration failed");
     }
 
-    const user = await response.json();
+    const responseData: AuthResponse = await response.json();
+
+    if (!responseData.status) {
+      throw new AuthError(
+        responseData.metadata.message || "Registration failed"
+      );
+    }
+
+    const userData = responseData.metadata;
 
     // Store the token in localStorage
-    localStorage.setItem("token", user.token);
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("token", userData.accessToken);
+    localStorage.setItem("refreshToken", userData.refreshToken);
+    localStorage.setItem("user", JSON.stringify(userData));
 
-    return user;
+    return userData;
   } catch (error) {
     console.error("Registration error:", error);
     if (error instanceof AuthError) {
@@ -96,5 +99,6 @@ export const register = async (
 
 export const logout = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("refreshToken");
   localStorage.removeItem("user");
 };

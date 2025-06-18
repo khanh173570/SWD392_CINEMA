@@ -1,12 +1,23 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/useAuth";
-import { LogOut, Search, Menu, X, MapPin, ShoppingBag } from "lucide-react";
+import {
+  LogOut,
+  Search,
+  Menu,
+  X,
+  MapPin,
+  ShoppingBag,
+  User,
+  History,
+  ChevronDown,
+} from "lucide-react";
 import CinestarLogo from "./CinestarLogo";
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const navigate = useNavigate();
 
@@ -14,7 +25,6 @@ const Header: React.FC = () => {
     logout();
     navigate("/login");
   };
-
   // Effect to handle scroll events
   React.useEffect(() => {
     const handleScroll = () => {
@@ -30,6 +40,24 @@ const Header: React.FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [scrolled]);
+
+  // Effect to close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest(".user-dropdown")) {
+        setIsUserDropdownOpen(false);
+      }
+    };
+
+    if (isUserDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isUserDropdownOpen]);
 
   return (
     <>
@@ -58,7 +86,6 @@ const Header: React.FC = () => {
                 <CinestarLogo className="h-10 w-10" />
                 <span className="hidden md:inline text-white">CINESTAR</span>
               </Link>
-
               {/* Booking buttons */}
               <div className="hidden md:flex gap-2">
                 <Link
@@ -76,7 +103,6 @@ const Header: React.FC = () => {
                   ĐẶT BẮP NƯỚC
                 </Link>
               </div>
-
               {/* Search bar */}
               <div className="hidden md:flex flex-1 max-w-md mx-4">
                 <div className="relative w-full">
@@ -89,21 +115,85 @@ const Header: React.FC = () => {
                     <Search size={18} />
                   </button>
                 </div>
-              </div>
-
+              </div>{" "}
               {/* User account */}
               <div className="hidden md:flex items-center gap-4">
+                {" "}
                 {user ? (
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-white">
-                      {user.userName}
-                    </span>
+                  <div className="relative user-dropdown">
+                    {/* User dropdown button */}
                     <button
-                      onClick={handleLogout}
-                      className="text-white hover:text-gray-300 transition-colors"
+                      onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                      className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors focus:outline-none"
                     >
-                      <LogOut size={20} />
+                      <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                        <User size={16} className="text-white" />
+                      </div>
+                      <span className="font-semibold">{user.userName}</span>
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-200 ${
+                          isUserDropdownOpen ? "rotate-180" : ""
+                        }`}
+                      />
                     </button>
+
+                    {/* Dropdown Menu */}
+                    {isUserDropdownOpen && (
+                      <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-50">
+                        {/* User Info Header */}
+                        <div className="bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                              <User size={20} className="text-white" />
+                            </div>
+                            <div>
+                              {" "}
+                              <p className="font-semibold text-white">
+                                {user.userName}
+                              </p>
+                              <p className="text-sm text-white/80">
+                                {user.roleName}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Menu Items */}
+                        <div className="py-2">
+                          <Link
+                            to="/profile"
+                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                            onClick={() => setIsUserDropdownOpen(false)}
+                          >
+                            <User size={18} className="text-gray-500" />
+                            <span>Thông tin cá nhân</span>
+                          </Link>
+
+                          <Link
+                            to="/booking-history"
+                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                            onClick={() => setIsUserDropdownOpen(false)}
+                          >
+                            <History size={18} className="text-gray-500" />
+                            <span>Lịch sử đặt vé</span>
+                          </Link>
+
+                          <div className="border-t border-gray-200 my-1"></div>
+
+                          <button
+                            onClick={() => {
+                              setIsUserDropdownOpen(false);
+                              handleLogout();
+                            }}
+                            className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors"
+                          >
+                            <LogOut size={18} className="text-red-500" />
+                            <span>Đăng xuất</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <Link
@@ -122,7 +212,6 @@ const Header: React.FC = () => {
                   <span>VN</span>
                 </div>
               </div>
-
               {/* Mobile menu button */}
               <button
                 className="md:hidden text-white focus:outline-none"
@@ -191,7 +280,6 @@ const Header: React.FC = () => {
                       <Search size={18} />
                     </button>
                   </div>
-
                   <div className="flex gap-2">
                     <Link
                       to="/booking"
@@ -206,7 +294,6 @@ const Header: React.FC = () => {
                       ĐẶT BẮP NƯỚC
                     </Link>
                   </div>
-
                   <Link
                     to="/location"
                     className="flex items-center gap-1 text-white p-2"
@@ -228,24 +315,53 @@ const Header: React.FC = () => {
                   </Link>
                   <Link to="/about" className="text-white p-2">
                     Giới thiệu
-                  </Link>
-
+                  </Link>{" "}
                   <div className="border-t border-gray-700 pt-4">
                     {user ? (
                       <div className="flex flex-col gap-2">
-                        <div className="flex items-center gap-2 text-sm">
-                          <span className="text-gray-300">Welcome,</span>
-                          <span className="font-semibold">{user.userName}</span>
-                          <span className="ml-auto px-2 py-1 text-xs bg-[#5D25A8] rounded-full">
-                            {user.roleName}
-                          </span>
+                        {/* User Info */}
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                            <User size={20} className="text-white" />
+                          </div>
+                          <div>
+                            {" "}
+                            <span className="font-semibold text-white block">
+                              {user.userName}
+                            </span>
+                            <span className="text-gray-300 text-sm">
+                              {user.roleName}
+                            </span>
+                          </div>
                         </div>
+
+                        {/* Menu Items */}
+                        <Link
+                          to="/profile"
+                          className="flex items-center gap-3 text-white hover:text-gray-300 transition-colors py-2"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <User size={18} />
+                          <span>Thông tin cá nhân</span>
+                        </Link>
+
+                        <Link
+                          to="/booking-history"
+                          className="flex items-center gap-3 text-white hover:text-gray-300 transition-colors py-2"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <History size={18} />
+                          <span>Lịch sử đặt vé</span>
+                        </Link>
+
+                        <div className="border-t border-gray-700 my-2"></div>
+
                         <button
                           onClick={handleLogout}
-                          className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors"
+                          className="flex items-center gap-3 text-red-400 hover:text-red-300 transition-colors py-2"
                         >
-                          <LogOut size={16} />
-                          Đăng xuất
+                          <LogOut size={18} />
+                          <span>Đăng xuất</span>
                         </button>
                       </div>
                     ) : (
