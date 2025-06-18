@@ -4,6 +4,8 @@
 
 The project uses environment variables to configure API endpoints. This makes it easy to switch between different environments (development, staging, production) without changing the code.
 
+> **IMPORTANT**: All API endpoints MUST be defined in the `.env` file. No hardcoded fallbacks are allowed in the code. This ensures consistent behavior across all environments and prevents silent failures when environment variables are missing.
+
 ```
 VITE_API_BASE_URL=http://localhost:8081  # The base URL of the API server
 VITE_API_PATH=/api/v1                    # The base path for all API endpoints
@@ -16,6 +18,7 @@ VITE_API_REFRESH_TOKEN=/account/refresh-token
 VITE_API_MOVIES_SHOWING=/movies/showing
 VITE_API_MOVIES_UPCOMING=/movies/upcoming
 VITE_API_MOVIES_COMING=/movies/coming
+VITE_API_MOVIE_DETAILS=/movies
 ```
 
 ## CORS Handling with Vite Proxy

@@ -1,12 +1,11 @@
 import { Movie, MovieResponse } from "../types/customer";
 
-const API_PATH = import.meta.env.VITE_API_PATH || "/api/v1";
-const MOVIES_SHOWING_ENDPOINT =
-  import.meta.env.VITE_API_MOVIES_SHOWING || "/movies/showing";
-const MOVIES_UPCOMING_ENDPOINT =
-  import.meta.env.VITE_API_MOVIES_UPCOMING || "/movies/upcoming";
-const MOVIES_COMING_ENDPOINT =
-  import.meta.env.VITE_API_MOVIES_COMING || "/movies/coming";
+// Using strict environment variables - no fallbacks
+const API_PATH = import.meta.env.VITE_API_PATH;
+const MOVIES_SHOWING_ENDPOINT = import.meta.env.VITE_API_MOVIES_SHOWING;
+const MOVIES_UPCOMING_ENDPOINT = import.meta.env.VITE_API_MOVIES_UPCOMING;
+const MOVIES_COMING_ENDPOINT = import.meta.env.VITE_API_MOVIES_COMING;
+const MOVIE_DETAILS_ENDPOINT = import.meta.env.VITE_API_MOVIE_DETAILS;
 
 // Helper function to handle API requests
 const fetchWithErrorHandling = async (url: string): Promise<MovieResponse> => {
@@ -65,7 +64,7 @@ export const getComingMovies = async (): Promise<Movie[]> => {
 export const getMovieById = async (id: number): Promise<Movie | null> => {
   try {
     const response: MovieResponse = await fetchWithErrorHandling(
-      `/api${API_PATH}/movies/${id}`
+      `/api${API_PATH}${MOVIE_DETAILS_ENDPOINT}/${id}`
     );
     return response.metadata[0] || null;
   } catch (error) {

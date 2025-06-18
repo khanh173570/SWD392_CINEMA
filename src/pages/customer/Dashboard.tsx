@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [featuredMovie, setFeaturedMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"showing" | "upcoming">("showing");
+  const [activeTab, setActiveTab] = useState<"showing" | "coming">("showing");
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -93,11 +93,9 @@ const Dashboard = () => {
             Phim Đang Chiếu
           </button>
           <button
-            onClick={() => setActiveTab("upcoming")}
+            onClick={() => setActiveTab("coming")}
             className={`movie-tab ${
-              activeTab === "upcoming"
-                ? "movie-tab-active"
-                : "movie-tab-inactive"
+              activeTab === "coming" ? "movie-tab-active" : "movie-tab-inactive"
             }`}
           >
             <Calendar size={20} />
@@ -155,7 +153,7 @@ const Dashboard = () => {
 
                   <div className="mt-8 flex justify-center">
                     <a
-                      href="/movies/upcoming"
+                      href="/movies/coming"
                       className="rounded-lg bg-purple-600 px-6 py-3 text-center font-medium text-white shadow-md transition-colors hover:bg-purple-700"
                     >
                       Xem tất cả phim sắp chiếu

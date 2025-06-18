@@ -7,8 +7,8 @@ import {
 
 // Using proxy through Vite for API endpoints
 const API_PATH = import.meta.env.VITE_API_PATH;
-const LOGIN_ENDPOINT = `${API_PATH}${import.meta.env.VITE_API_AUTH_LOGIN}`;
-const REGISTER_ENDPOINT = `${API_PATH}${
+const LOGIN_ENDPOINT = `/api${API_PATH}${import.meta.env.VITE_API_AUTH_LOGIN}`;
+const REGISTER_ENDPOINT = `/api${API_PATH}${
   import.meta.env.VITE_API_AUTH_REGISTER
 }`;
 
