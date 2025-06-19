@@ -1,14 +1,18 @@
 // Các types cho dữ liệu phim và rạp chiếu
 
 export interface Movie {
-  id: number;
+  id: string;
   name: string;
-  image: string;
-  duration: number;
-  releaseDate: string;
-  genre: string;
-  trailer: string;
-  ageRated: number;
+  image?: string;
+  duration?: number;
+  description?: string;
+  trailer?: string;
+  director?: string;
+  cast?: string[] | string;
+  releaseDate?: string;
+  language?: string;
+  ageRated?: string;
+  genre?: string[] | string;
 }
 
 export interface MovieResponse {

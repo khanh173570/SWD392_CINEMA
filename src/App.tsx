@@ -27,6 +27,7 @@ import ManageStatus from "./pages/admin/ManageStatus";
 import StaffSchedule from "./pages/staff/Schedule";
 import StaffTickets from "./pages/staff/Tickets";
 import StaffCustomers from "./pages/staff/Customers";
+import MovieDetail from "./pages/admin/MovieDetail";
 
 function App() {
   return (
@@ -70,9 +71,9 @@ function App() {
                 </Route>
               </Route>
               {/* Admin routes (ROLE_ADMIN) */}
-              <Route element={<ProtectedRoute allowedRoles={["ROLE_ADMIN"]} />}>
+              {/* <Route element={<ProtectedRoute allowedRoles={["ROLE_ADMIN"]} />}> */}
                 <Route element={<AdminLayout />}>
-                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  {/* <Route path="/admin/dashboard" element={<AdminDashboard />} /> */}
                   <Route
                     path="/admin/manageaccount"
                     element={<Manageaccount />}
@@ -86,6 +87,10 @@ function App() {
                     element={<ManageMovies />}
                   />
                   <Route
+                    path="/admin/manage-movies/:id"
+                    element={<MovieDetail />}
+                  />
+                  <Route
                     path="/admin/manage-revenue"
                     element={<ManageRevenue />}
                   />
@@ -94,7 +99,7 @@ function App() {
                     element={<ManageStatus />}
                   />
                 </Route>
-              </Route>
+              {/* </Route> */}
               {/* Manager routes (ROLE_MANAGER) */}
               <Route
                 element={<ProtectedRoute allowedRoles={["ROLE_MANAGER"]} />}

@@ -63,12 +63,26 @@ export const getComingMovies = async (): Promise<Movie[]> => {
 // Get movie details by ID
 export const getMovieById = async (id: number): Promise<Movie | null> => {
   try {
-    const response: MovieResponse = await fetchWithErrorHandling(
+    const response: any = await fetchWithErrorHandling(
       `/api${API_PATH}${MOVIE_DETAILS_ENDPOINT}/${id}`
     );
-    return response.metadata[0] || null;
+    // Nếu metadata là object (API đúng chuẩn), trả về luôn object
+    if (
+      response &&
+      response.metadata &&
+      typeof response.metadata === "object" &&
+      !Array.isArray(response.metadata)
+    ) {
+      return response.metadata;
+    }
+    // Nếu metadata là mảng (API cũ), lấy phần tử đầu tiên
+    if (response && Array.isArray(response.metadata)) {
+      return response.metadata[0] || null;
+    }
+    return null;
   } catch (error) {
     console.error(`Failed to fetch movie with ID ${id}:`, error);
     return null;
   }
 };
+
