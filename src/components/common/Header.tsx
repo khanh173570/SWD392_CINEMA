@@ -155,7 +155,8 @@ const Header: React.FC = () => {
                               <User size={20} className="text-white" />
                             </div>
                             <div>
-                              {" "}                              <p className="font-semibold text-white">
+                              {" "}
+                              <p className="font-semibold text-white">
                                 {user.fullName}
                               </p>
                               <p className="text-sm text-white/80">
@@ -163,10 +164,9 @@ const Header: React.FC = () => {
                               </p>
                             </div>
                           </div>
-                        </div>
-
+                        </div>{" "}
                         {/* Menu Items */}
-                        <div className="py-2">
+                        <div className="py-2 h-90 overflow-y-auto">
                           <Link
                             to="/profile"
                             className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors"
@@ -175,7 +175,6 @@ const Header: React.FC = () => {
                             <User size={18} className="text-gray-500" />
                             <span>Thông tin cá nhân</span>
                           </Link>
-
                           <Link
                             to="/booking-history"
                             className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors"
@@ -183,16 +182,17 @@ const Header: React.FC = () => {
                           >
                             <History size={18} className="text-gray-500" />
                             <span>Lịch sử đặt vé</span>
-                          </Link>                          {/* Role Switcher Section */}
+                          </Link>{" "}
+                          {/* Role Switcher Section */}
                           <div className="border-t border-gray-200 mt-1 pt-2 px-4">
                             <div className="text-xs font-medium text-gray-500 mb-2">
                               Chuyển đổi vai trò
                             </div>
-                            <RoleSwitcher />
+                            <div className="relative role-switcher-wrapper">
+                              <RoleSwitcher />
+                            </div>
                           </div>
-
                           <div className="border-t border-gray-200 my-1"></div>
-
                           <button
                             onClick={() => {
                               setIsUserDropdownOpen(false);

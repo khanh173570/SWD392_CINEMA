@@ -21,13 +21,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onToggle }) => {
 
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
-    { icon: Users, label: "Manage Accounts", path: "/admin/accounts" },
-    { icon: Film, label: "Manage Movies", path: "/admin/movies" },
-    { icon: MapPin, label: "Manage Cinemas", path: "/admin/cinemas" },
-    { icon: DollarSign, label: "Revenue", path: "/admin/revenue" },
-    { icon: Settings, label: "Status", path: "/admin/status" },
+    { icon: Users, label: "Manage Accounts", path: "/admin/manage-accounts" },
+    { icon: Film, label: "Manage Movies", path: "/admin/manage-movies" },
+    { icon: MapPin, label: "Manage Cinemas", path: "/admin/manage-cinemas" },
+    { icon: DollarSign, label: "Revenue", path: "/admin/manage-revenue" },
+    { icon: Settings, label: "Status", path: "/admin/manage-status" },
   ];
-
   return (
     <div
       className={`fixed left-0 top-0 h-full bg-gray-900 text-white transition-all duration-300 z-40 ${

@@ -74,13 +74,8 @@ export const getComingMovies = async (): Promise<Movie[]> => {
 // Get movie details by ID
 export const getMovieById = async (id: number): Promise<Movie | null> => {
   try {
-<<<<<<< HEAD
-    const response: any = await fetchWithErrorHandling(
-      `/api${API_PATH}${MOVIE_DETAILS_ENDPOINT}/${id}`
-=======
     const response: MovieResponse = await fetchWithErrorHandling(
       `${MOVIE_DETAILS_ENDPOINT}/${id}`
->>>>>>> FE_PhuongKhanh
     );
     // Nếu metadata là object (API đúng chuẩn), trả về luôn object
     if (
@@ -101,4 +96,3 @@ export const getMovieById = async (id: number): Promise<Movie | null> => {
     return null;
   }
 };
-

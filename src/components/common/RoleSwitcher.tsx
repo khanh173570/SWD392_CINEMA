@@ -30,9 +30,28 @@ const roleStyles: Record<RoleName, { color: string; icon: string }> = {
   },
 };
 
+// Component to display a dropdown for switching between user roles
 const RoleSwitcher: React.FC = () => {
   const { activeRole, availableRoles, switchRole } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Effect to close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest(".role-switcher-container")) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   // Hide if user has only one role or no roles
   if (!activeRole || availableRoles.length <= 1) {
@@ -40,7 +59,7 @@ const RoleSwitcher: React.FC = () => {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full role-switcher-container">
       <div className="mb-1 text-sm text-gray-500">Chuyển đổi vai trò</div>
       <div className="relative">
         <button
@@ -51,12 +70,16 @@ const RoleSwitcher: React.FC = () => {
             <span className="mr-2 text-sm">{roleStyles[activeRole]?.icon}</span>
             <span>Role: {roleDisplayNames[activeRole] || "Unknown"}</span>
           </div>
-          <ChevronDown className="h-4 w-4" />
-        </button>
-
+          <ChevronDown
+            className={`h-4 w-4 transition-transform ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
+        </button>{" "}
         {isOpen && (
           <div
-            className="absolute left-0 right-0 z-10 mt-1 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            className="absolute left-0 right-0 z-50 mt-1 rounded-md bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden"
+            style={{ maxHeight: "200px", overflowY: "auto" }}
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="role-menu-button"
@@ -70,12 +93,12 @@ const RoleSwitcher: React.FC = () => {
                 }}
                 className={`flex w-full items-center px-4 py-2 text-left text-sm ${
                   role === activeRole
-                    ? "bg-gray-100 text-gray-900"
+                    ? "bg-gray-100 text-gray-900 font-medium"
                     : "text-gray-700 hover:bg-gray-50"
                 }`}
                 role="menuitem"
               >
-                <span className="mr-2">{roleStyles[role]?.icon}</span>
+                <span className="mr-2 text-base">{roleStyles[role]?.icon}</span>
                 {roleDisplayNames[role] || role}
               </button>
             ))}

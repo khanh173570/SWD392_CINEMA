@@ -70,13 +70,14 @@ function App() {
                 </Route>
               </Route>
               {/* Admin routes (ROLE_ADMIN) */}
-              {/* <Route element={<ProtectedRoute allowedRoles={["ROLE_ADMIN"]} />}> */}
+              <Route element={<ProtectedRoute allowedRoles={["ROLE_ADMIN"]} />}>
                 <Route element={<AdminLayout />}>
-                  {/* <Route path="/admin/dashboard" element={<AdminDashboard />} /> */}
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
                   <Route
-                    path="/admin/manageaccount"
+                    path="/admin/manage-accounts"
                     element={<Manageaccount />}
                   />
+
                   <Route
                     path="/admin/manage-cinemas"
                     element={<ManageCinemas />}
@@ -90,26 +91,31 @@ function App() {
                     element={<MovieDetail />}
                   />
                   <Route
-                    path="/admin/manage-revenue"
+                    path="/admin/manage-cinemas"
                     element={<ManageRevenue />}
                   />
                   <Route
                     path="/admin/manage-status"
                     element={<ManageStatus />}
                   />
-                </Route>
-              {/* </Route> */}
-              {/* Manager routes (ROLE_MANAGER) */}
-              <Route
-                element={<ProtectedRoute allowedRoles={["ROLE_MANAGER"]} />}
-              >
-                <Route element={<ManagerLayout />}>
                   <Route
-                    path="/manager/dashboard"
-                    element={<ManagerDashboard />}
+                    path="/admin/manage-revenue"
+                    element={<ManageRevenue />}
                   />
                 </Route>
-              </Route>{" "}
+                {/* </Route> */}
+                {/* Manager routes (ROLE_MANAGER) */}
+                <Route
+                  element={<ProtectedRoute allowedRoles={["ROLE_MANAGER"]} />}
+                >
+                  <Route element={<ManagerLayout />}>
+                    <Route
+                      path="/manager/dashboard"
+                      element={<ManagerDashboard />}
+                    />
+                  </Route>
+                </Route>{" "}
+              </Route>
             </Routes>
           </AuthProvider>
         </NotificationProvider>
