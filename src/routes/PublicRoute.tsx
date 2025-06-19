@@ -23,11 +23,11 @@ const PublicRoute: React.FC<PublicRouteProps> = ({ restricted = false }) => {
     const staffRole = import.meta.env.VITE_ROLE_STAFF;
     const customerRole = import.meta.env.VITE_ROLE_CUSTOMER;
 
-    if (user.roleName === adminRole) {
+    if (user.roles === adminRole) {
       return <Navigate to="/admin/dashboard" replace />;
-    } else if (user.roleName === staffRole) {
+    } else if (user.roles === staffRole) {
       return <Navigate to="/staff/dashboard" replace />;
-    } else if (user.roleName === customerRole) {
+    } else if (user.roles === customerRole) {
       return <Navigate to="/customer/dashboard" replace />;
     }
   }

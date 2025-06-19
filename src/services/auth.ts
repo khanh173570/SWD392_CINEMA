@@ -5,11 +5,13 @@ import {
   AuthMetadata,
 } from "../types/auth";
 
-// Using proxy through Vite for API endpoints
-const API_PATH = import.meta.env.VITE_API_PATH;
-const LOGIN_ENDPOINT = `/api${API_PATH}${import.meta.env.VITE_API_AUTH_LOGIN}`;
-const REGISTER_ENDPOINT = `/api${API_PATH}${
-  import.meta.env.VITE_API_AUTH_REGISTER
+// Using proxy through Vite to avoid CORS issues
+const API_VERSION = import.meta.env.VITE_API_PATH || "/api/v1";
+const LOGIN_ENDPOINT = `${API_VERSION}${
+  import.meta.env.VITE_API_AUTH_LOGIN || "/account/login"
+}`;
+const REGISTER_ENDPOINT = `${API_VERSION}${
+  import.meta.env.VITE_API_AUTH_REGISTER || "/account/register"
 }`;
 
 class AuthError extends Error {

@@ -13,9 +13,10 @@ import {
   ChevronDown,
 } from "lucide-react";
 import CinestarLogo from "./CinestarLogo";
+import RoleSwitcher from "./RoleSwitcher";
 
 const Header: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, activeRole } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
@@ -69,7 +70,13 @@ const Header: React.FC = () => {
       ></div>
 
       {/* Fixed header */}
-      <header className="fixed top-0 left-0 right-0 z-50 w-full">
+      <header
+        className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-black/90 shadow-md"
+            : "bg-gradient-to-b from-black/70 to-transparent"
+        }`}
+      >
         {/* Main navigation bar with background color */}
         <div
           className={`bg-[#0f172a] shadow-md transition-all duration-300 ${
@@ -129,7 +136,7 @@ const Header: React.FC = () => {
                       <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
                         <User size={16} className="text-white" />
                       </div>
-                      <span className="font-semibold">{user.userName}</span>
+                      <span className="font-semibold">{user.fullName}</span>
                       <ChevronDown
                         size={16}
                         className={`transition-transform duration-200 ${
@@ -148,12 +155,11 @@ const Header: React.FC = () => {
                               <User size={20} className="text-white" />
                             </div>
                             <div>
-                              {" "}
-                              <p className="font-semibold text-white">
-                                {user.userName}
+                              {" "}                              <p className="font-semibold text-white">
+                                {user.fullName}
                               </p>
                               <p className="text-sm text-white/80">
-                                {user.roleName}
+                                {activeRole && activeRole.replace("ROLE_", "")}
                               </p>
                             </div>
                           </div>
@@ -163,7 +169,7 @@ const Header: React.FC = () => {
                         <div className="py-2">
                           <Link
                             to="/profile"
-                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors"
                             onClick={() => setIsUserDropdownOpen(false)}
                           >
                             <User size={18} className="text-gray-500" />
@@ -172,12 +178,18 @@ const Header: React.FC = () => {
 
                           <Link
                             to="/booking-history"
-                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors"
                             onClick={() => setIsUserDropdownOpen(false)}
                           >
                             <History size={18} className="text-gray-500" />
                             <span>Lịch sử đặt vé</span>
-                          </Link>
+                          </Link>                          {/* Role Switcher Section */}
+                          <div className="border-t border-gray-200 mt-1 pt-2 px-4">
+                            <div className="text-xs font-medium text-gray-500 mb-2">
+                              Chuyển đổi vai trò
+                            </div>
+                            <RoleSwitcher />
+                          </div>
 
                           <div className="border-t border-gray-200 my-1"></div>
 
@@ -327,10 +339,10 @@ const Header: React.FC = () => {
                           <div>
                             {" "}
                             <span className="font-semibold text-white block">
-                              {user.userName}
+                              {user.fullName}
                             </span>
                             <span className="text-gray-300 text-sm">
-                              {user.roleName}
+                              {activeRole && activeRole.replace("ROLE_", "")}
                             </span>
                           </div>
                         </div>

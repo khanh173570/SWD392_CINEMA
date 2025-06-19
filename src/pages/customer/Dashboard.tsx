@@ -6,12 +6,16 @@ import { Film, Calendar, Loader2 } from "lucide-react";
 
 const Dashboard = () => {
   const [showingMovies, setShowingMovies] = useState<Movie[]>([]);
-
   const [comingMovies, setComingMovies] = useState<Movie[]>([]);
   const [featuredMovie, setFeaturedMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"showing" | "coming">("showing");
+
+  // Quick booking states
+  const [selectedCinema, setSelectedCinema] = useState<string>("");
+  const [selectedMovie, setSelectedMovie] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedShowtime, setSelectedShowtime] = useState<string>("");
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -72,103 +76,143 @@ const Dashboard = () => {
     );
   }
 
+  const handleQuickBooking = () => {
+    // Handle the quick booking logic here
+    if (selectedCinema && selectedMovie && selectedDate && selectedShowtime) {
+      // Redirect to booking page or open booking modal
+      console.log("Booking details:", {
+        selectedCinema,
+        selectedMovie,
+        selectedDate,
+        selectedShowtime,
+      });
+    } else {
+      alert("Vui lòng chọn đầy đủ thông tin để đặt vé");
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Quick Booking Section */}
+      <div className="mb-8 rounded-lg bg-gradient-to-r from-indigo-900 to-purple-900 p-6 shadow-xl">
+        <div className="flex flex-row items-center justify-between md:flex-row">
+          <div className="mb-4 text-2xl font-bold text-white md:mb-0">
+            ĐẶT VÉ NHANH
+          </div>
+          <div className="flex flex-nowrap items-center gap-2 overflow-auto">
+            <div className="min-w-40">
+              <select
+                className="w-full rounded-md border-gray-300 px-3 py-2 text-gray-700 focus:border-indigo-500 focus:ring-indigo-500"
+                value={selectedCinema}
+                onChange={(e) => setSelectedCinema(e.target.value)}
+              >
+                <option value="">1. Chọn Rạp</option>
+                <option value="cinestar-q1">Cinestar Quận 1</option>
+                <option value="cinestar-q2">Cinestar Quận 2</option>
+                <option value="cinestar-q3">Cinestar Quận 3</option>
+              </select>
+            </div>
+            <div className="min-w-40  ">
+              <select
+                className="w-100 rounded-md border-gray-300 px-3 py-2 text-gray-700 focus:border-indigo-500 focus:ring-indigo-500"
+                value={selectedMovie}
+                onChange={(e) => setSelectedMovie(e.target.value)}
+              >
+                {" "}
+                <option value="">2. Chọn Phim</option>
+                {showingMovies.slice(0, 5).map((movie) => (
+                  <option key={movie.id} value={movie.id}>
+                    {movie.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="min-w-40">
+              <select
+                className="w-full rounded-md border-gray-300 px-3 py-2 text-gray-700 focus:border-indigo-500 focus:ring-indigo-500"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+              >
+                <option value="">3. Chọn Ngày</option>
+                <option value="2025-06-19">Hôm nay (19/06)</option>
+                <option value="2025-06-20">Ngày mai (20/06)</option>
+                <option value="2025-06-21">21/06/2025</option>
+                <option value="2025-06-22">22/06/2025</option>
+              </select>
+            </div>
+            <div className="min-w-40">
+              <select
+                className="w-full rounded-md border-gray-300 px-3 py-2 text-gray-700 focus:border-indigo-500 focus:ring-indigo-500"
+                value={selectedShowtime}
+                onChange={(e) => setSelectedShowtime(e.target.value)}
+              >
+                <option value="">4. Chọn Suất</option>
+                <option value="10:00">10:00</option>
+                <option value="12:30">12:30</option>
+                <option value="15:00">15:00</option>
+                <option value="17:30">17:30</option>
+                <option value="20:00">20:00</option>
+              </select>
+            </div>
+            <button
+              onClick={handleQuickBooking}
+              className="min-w-32 rounded-md bg-red-600 px-4 py-2 font-bold text-white transition-colors hover:bg-red-700"
+            >
+              ĐẶT NGAY
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Featured Movie Banner */}
       {featuredMovie && <FeaturedMovie movie={featuredMovie} />}
 
-      {/* Movie Section with Tabs */}
+      {/* Movie Sections */}
       <div className="my-8">
-        {/* Tab Navigation */}{" "}
-        <div className="mb-6 flex">
-          <button
-            onClick={() => setActiveTab("showing")}
-            className={`movie-tab ${
-              activeTab === "showing"
-                ? "movie-tab-active"
-                : "movie-tab-inactive"
-            }`}
-          >
-            <Film size={20} />
-            Phim Đang Chiếu
-          </button>
-          <button
-            onClick={() => setActiveTab("coming")}
-            className={`movie-tab ${
-              activeTab === "coming" ? "movie-tab-active" : "movie-tab-inactive"
-            }`}
-          >
-            <Calendar size={20} />
-            Phim Sắp Chiếu
-          </button>
+        {/* Now Showing Movies Section */}
+        <div className="mb-12">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <Film size={24} className="mr-2 inline-block" />
+              Phim Đang Chiếu
+            </h2>
+            <a
+              href="/movies/showing"
+              className="text-purple-600 hover:underline dark:text-purple-400"
+            >
+              Xem thêm
+            </a>
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {showingMovies.slice(0, 4).map((movie) => (
+              <div key={movie.id}>
+                <MovieCard movie={movie} />
+              </div>
+            ))}
+          </div>
         </div>
-        {/* Tab Content */}
-        <div className="min-h-[600px] rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
-          {activeTab === "showing" ? (
-            <div>
-              <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
-                Phim Đang Chiếu
-              </h2>
-              {showingMovies.length > 0 ? (
-                <>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                    {showingMovies.map((movie) => (
-                      <div key={movie.id}>
-                        <MovieCard movie={movie} />
-                      </div>
-                    ))}
-                  </div>
 
-                  <div className="mt-8 flex justify-center">
-                    <a
-                      href="/movies/showing"
-                      className="rounded-lg bg-purple-600 px-6 py-3 text-center font-medium text-white shadow-md transition-colors hover:bg-purple-700"
-                    >
-                      Xem tất cả phim đang chiếu
-                    </a>
-                  </div>
-                </>
-              ) : (
-                <div className="flex h-64 items-center justify-center">
-                  <p className="text-lg text-gray-500 dark:text-gray-400">
-                    Không có phim đang chiếu
-                  </p>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div>
-              <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
-                Phim Sắp Chiếu
-              </h2>
-              {comingMovies.length > 0 ? (
-                <>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                    {comingMovies.map((movie) => (
-                      <div key={movie.id}>
-                        <MovieCard movie={movie} />
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-8 flex justify-center">
-                    <a
-                      href="/movies/coming"
-                      className="rounded-lg bg-purple-600 px-6 py-3 text-center font-medium text-white shadow-md transition-colors hover:bg-purple-700"
-                    >
-                      Xem tất cả phim sắp chiếu
-                    </a>
-                  </div>
-                </>
-              ) : (
-                <div className="flex h-64 items-center justify-center">
-                  <p className="text-lg text-gray-500 dark:text-gray-400">
-                    Không có phim sắp chiếu
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
+        {/* Coming Soon Movies Section */}
+        <div className="mb-12">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <Calendar size={24} className="mr-2 inline-block" />
+              Phim Sắp Chiếu
+            </h2>
+            <a
+              href="/movies/coming"
+              className="text-purple-600 hover:underline dark:text-purple-400"
+            >
+              Xem thêm
+            </a>
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {comingMovies.slice(0, 4).map((movie) => (
+              <div key={movie.id}>
+                <MovieCard movie={movie} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
