@@ -7,7 +7,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) => {
-  const { user, loading } = useAuth();
+  const { user, loading, activeRole } = useAuth();
 
   if (loading) {
     return (
@@ -17,8 +17,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) => {
     );
   }
 
-  // Check if the user is authenticated and has one of the allowed roles
-  if (!user || !allowedRoles.includes(user.roleName)) {
+  // Check if the user is authenticated and has the active role in the allowed roles
+  if (!user || !activeRole || !allowedRoles.includes(activeRole)) {
     return <Navigate to="/login" replace />;
   }
 

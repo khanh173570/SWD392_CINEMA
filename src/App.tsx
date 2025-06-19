@@ -46,11 +46,10 @@ function App() {
                 <Route element={<PublicRoute />}>
                   <Route path="/" element={<Home />} />
                 </Route>
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<NotFound />} />{" "}
               </Route>{" "}
               {/* User/Customer routes (ROLE_USER) */}
-              <Route>
-                {/* <Route element={<ProtectedRoute allowedRoles={["ROLE_USER"]} />}></Route> */}
+              <Route element={<ProtectedRoute allowedRoles={["ROLE_USER"]} />}>
                 <Route element={<UserLayout />}>
                   <Route
                     path="/customer/dashboard"

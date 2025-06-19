@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../contexts/useAuth";
-import { Bell, Search, User, LogOut } from "lucide-react";
+import { Bell, Search, User, LogOut, ChevronDown } from "lucide-react";
+import RoleSwitcher from "../common/RoleSwitcher";
 
 const AdminHeader: React.FC = () => {
   const { user, logout } = useAuth();
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -32,19 +34,35 @@ const AdminHeader: React.FC = () => {
             <Bell className="w-5 h-5" />
           </button>
 
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-              <User className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-sm font-medium text-gray-700">
-              {user?.userName}
-            </span>
-            <button
-              onClick={handleLogout}
-              className="p-2 text-gray-400 hover:text-gray-600"
+          <div className="relative">
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
             >
-              <LogOut className="w-4 h-4" />
-            </button>
+              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                <User className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-sm font-medium text-gray-700">
+                {user?.fullName}
+              </span>
+              <ChevronDown className="w-4 h-4 text-gray-500" />
+            </div>
+
+            {isUserDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-56 bg-white shadow-lg rounded-md z-10 py-2">
+                <div className="px-4 py-2">
+                  <RoleSwitcher />
+                </div>
+                <div className="border-t border-gray-200 my-1"></div>
+                <button
+                  onClick={handleLogout}
+                  className="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Đăng xuất
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
