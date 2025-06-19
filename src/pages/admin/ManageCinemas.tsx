@@ -2,10 +2,10 @@ import React from "react";
 
 const ManageCinemas: React.FC = () => {
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">Manage Cinemas</h1>
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <p>Cinema management functionality will be implemented here.</p>
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Quản lý rạp chiếu</h1>
+      <div className="bg-white shadow-md rounded-lg p-6">
+        <p className="text-gray-600">Đây là trang quản lý rạp chiếu. Nội dung sẽ được cập nhật sau.</p>
       </div>
     </div>
   );
